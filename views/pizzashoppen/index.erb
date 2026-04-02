@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projekt #2</title>
+  <link rel="stylesheet" type="text/css" href="/style.css?<%= Time.now.to_i %>">
+</head>
+<body>
+  <h1><a href="/">Alexandars pizzeria</a></h1>
+  <h2>Välj pizza</h2>
+
+  <form action="/pizzashoppen" method="post" class="add-pizza-form">
+    <input type="text" name="pizza_name" placeholder="Pizzanamn" required>
+    <input type="number" name="pizza_price" placeholder="Pris" required>
+    <button type="submit">Lägg till pizza</button>
+  </form>
+
+  <div class="pizza-list">
+    <% @pizza.each do |pizza| %>
+      <div class="pizza-card">
+        <h3><%= pizza["name"] %></h3>
+        <p>Pris: <%= pizza["price"] %> kr</p>
+
+        <form action="/pizza/<%= pizza["id"] %>/delete" method="post">
+          <button type="submit">Ta bort</button>
+        </form>
+      </div>
+    <% end %>
+  </div>
+</body>
+</html>
