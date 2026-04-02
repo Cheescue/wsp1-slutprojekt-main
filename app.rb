@@ -40,4 +40,20 @@ class App < Sinatra::Base
     redirect '/pizzashoppen'
   end
 
+  get '/pizza/:id/edit' do
+    id = params['id']
+    @pizza = db.execute('SELECT * FROM pizza WHERE id = ?', [id]).first
+    erb :"pizzashoppen/edit"
+  end
+
+  post '/pizza/:id' do
+    id = params['id']
+    name = params['pizza_name']
+    price = params['pizza_price']
+
+    db.execute('UPDATE pizza SET name = ?, price = ? WHERE id = ?', [name, price, id])
+
+    redirect '/pizzashoppen'
+  end
+
 end

@@ -22,6 +22,8 @@
         <h3><%= pizza["name"] %></h3>
         <p>Pris: <%= pizza["price"] %> kr</p>
 
+        <a href="/pizza/<%= pizza["id"] %>/edit">Ändra</a>
+
         <form action="/pizza/<%= pizza["id"] %>/delete" method="post">
           <button type="submit">Ta bort</button>
         </form>
