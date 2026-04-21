@@ -9,6 +9,9 @@
 <body>
   <h1><a href="/">Alexandars pizzeria</a></h1>
   <h2>Välj pizza</h2>
+  <%if @current_user%>
+  <h3><%=@current_user["username"]%></h3>
+  <%end%>
 
   <form action="/pizzashoppen" method="post" class="add-pizza-form">
     <input type="text" name="pizza_name" placeholder="Pizzanamn" required>
@@ -30,5 +33,13 @@
       </div>
     <% end %>
   </div>
+
+ <form action="/logout" method="post">
+    <button type="submit">logout</button>
+  </form>
+  <a href="/login">Login</a>
+  <a href="/signup">signup</a>
+
+
 </body>
 </html>
