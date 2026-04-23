@@ -7,6 +7,10 @@ class App < Sinatra::Base
 
   setup_development_features(self)
 
+  def admin?
+    @current_user && @current_user["username"] == "admin"
+  end
+
   def db
     return @db if @db
 
@@ -37,6 +41,8 @@ class App < Sinatra::Base
   end
 
   post '/pizzashoppen' do
+    redirect '/pizzashoppen' unless admin?
+
     name = params['pizza_name']
     price = params['pizza_price']
 
@@ -46,6 +52,8 @@ class App < Sinatra::Base
   end
 
   post '/pizza/:id/delete' do
+    redirect '/pizzashoppen' unless admin?
+
     id = params['id']
 
     db.execute('DELETE FROM pizza WHERE id = ?', [id])
@@ -54,12 +62,16 @@ class App < Sinatra::Base
   end
 
   get '/pizza/:id/edit' do
+    redirect '/pizzashoppen' unless admin?
+
     id = params['id']
     @pizza = db.execute('SELECT * FROM pizza WHERE id = ?', [id]).first
     erb :"pizzashoppen/edit"
   end
 
   post '/pizza/:id' do
+    redirect '/pizzashoppen' unless admin?
+    
     id = params['id']
     name = params['pizza_name']
     price = params['pizza_price']

@@ -9,15 +9,18 @@
 <body>
   <h1><a href="/">Alexandars pizzeria</a></h1>
   <h2>Välj pizza</h2>
-  <%if @current_user%>
-  <h3><%=@current_user["username"]%></h3>
-  <%end%>
 
-  <form action="/pizzashoppen" method="post" class="add-pizza-form">
-    <input type="text" name="pizza_name" placeholder="Pizzanamn" required>
-    <input type="number" name="pizza_price" placeholder="Pris" required>
-    <button type="submit">Lägg till pizza</button>
-  </form>
+  <% if @current_user %>
+    <h3><%= @current_user["username"] %></h3>
+  <% end %>
+
+  <% if admin? %>
+    <form action="/pizzashoppen" method="post" class="add-pizza-form">
+      <input type="text" name="pizza_name" placeholder="Pizzanamn" required>
+      <input type="number" name="pizza_price" placeholder="Pris" required>
+      <button type="submit">Lägg till pizza</button>
+    </form>
+  <% end %>
 
   <div class="pizza-list">
     <% @pizza.each do |pizza| %>
@@ -25,21 +28,22 @@
         <h3><%= pizza["name"] %></h3>
         <p>Pris: <%= pizza["price"] %> kr</p>
 
-        <a href="/pizza/<%= pizza["id"] %>/edit">Ändra</a>
+        <% if admin? %>
+          <a href="/pizza/<%= pizza["id"] %>/edit">Ändra</a>
 
-        <form action="/pizza/<%= pizza["id"] %>/delete" method="post">
-          <button type="submit">Ta bort</button>
-        </form>
+          <form action="/pizza/<%= pizza["id"] %>/delete" method="post">
+            <button type="submit">Ta bort</button>
+          </form>
+        <% end %>
       </div>
     <% end %>
   </div>
 
- <form action="/logout" method="post">
+  <form action="/logout" method="post">
     <button type="submit">logout</button>
   </form>
+
   <a href="/login">Login</a>
   <a href="/signup">signup</a>
-
-
 </body>
 </html>
